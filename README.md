@@ -12,6 +12,8 @@
 
 > [https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones](https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones)
 
+Then move the csv file to the **data/** folder
+
 ## explore  notebooks
 
 >- notebooks/stats_on_other_features.ipynb
