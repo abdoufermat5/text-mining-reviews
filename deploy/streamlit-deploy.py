@@ -3,7 +3,7 @@ import pickle
 import streamlit as st
 import pandas as pd
 import numpy as np
-from utils.predict import predict_sentiment
+from predict import predict_sentiment
 
 st.title('Classification des critiques sur les telephones portables')
 st.markdown('Classifiez les critiques sur les telephones portables en 5 niveaux de sentiments: **negatif**, '
