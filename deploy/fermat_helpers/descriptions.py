@@ -1,7 +1,12 @@
 from PIL import Image
+import streamlit as st
+import streamlit.components.v1 as components
+import os
+
+data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
 
 
-def naive_bayes_description(st):
+def naive_bayes_description():
     st.markdown(
         """
         ### modèle de classification Naive Bayes:
@@ -11,7 +16,7 @@ def naive_bayes_description(st):
         attributs de cet échantillon. 
         """
     )
-    nbImage = Image.open('../data/assets/naive-bayes.png')
+    nbImage = Image.open(os.path.join(data_path, "assets", 'naive-bayes.png'))
     st.image(nbImage, caption='Naive Bayes', use_column_width=True)
     st.markdown("---")
     st.markdown(
@@ -41,7 +46,7 @@ def naive_bayes_description(st):
     )
 
 
-def svm_description(st):
+def rf_description():
     st.markdown(
         """
         # Modèle de classification Random Forest
@@ -49,7 +54,7 @@ def svm_description(st):
         Le modèle de classification Random Forest est un modèle d'ensemble qui utilise plusieurs arbres de décision 
         pour prédire la classe d'un échantillon. 
         """)
-    rfImage = Image.open('../data/assets/Random_forest_diagram_complete.png')
+    rfImage = Image.open(os.path.join(data_path, "assets", 'Random_forest_diagram_complete.png'))
     st.image(rfImage, caption='Random Forest', use_column_width=True)
     st.markdown("---")
     st.markdown(
@@ -75,4 +80,45 @@ def svm_description(st):
     )
 
 
-
+def description_section(section, chosen_model=None):
+    if section == "Preprocessing":
+        st.markdown("Le preprocessing est une etape importante dans le traitement des donnees textuelles. ")
+        st.markdown("![preprocessing-image](https://miro.medium.com/max/580/1*VzhvZVKGVGynlsU0AZZQww.jpeg)")
+    elif section == "Visualization":
+        st.markdown("La visualisation des donnees est une etape importante dans le traitement des donnees textuelles. ")
+        st.markdown("![visualization-image](https://miro.medium.com/max/580/1*VzhvZVKGVGynlsU0AZZQww.jpeg)")
+    elif section == "Modele":
+        st.markdown(
+            "> <div style='background-color: black;color:white;padding:1em;border:5px solid green;border-radius:5px'><b>Dans cette etape nous allons "
+            "predire le sentiment d'une critique sur les telephones "
+            "portables. A partir de la description du produit, nous allons predire le sentiment de la "
+            "critique.</b></div>",
+            unsafe_allow_html=True)
+        # description du modele choisi
+        if chosen_model == "Naive Bayes":
+            naive_bayes_description()
+        elif chosen_model == "Random Forest":
+            rf_description()
+    elif section == "Explore notebooks":
+        # choisir le notebook a ouvrir
+        notebook = st.selectbox("Choisir le notebook", ["Pretraitement",
+                                                        "Statistiques sur les autres variables",
+                                                        "Modele tuning"])
+        if notebook == "Pretraitement":
+            # load html file
+            with open(os.path.join(data_path, "assets", "preprocessing.html"), "r", encoding='utf-8') as f:
+                html = f.read()
+            # display html file
+            components.html(html, height=500, width=1000, scrolling=True)
+        elif notebook == "Statistiques sur les autres variables":
+            # load html file
+            with open(os.path.join(data_path, "assets", "stats_on_other_features.html"), "r", encoding='utf-8') as f:
+                html = f.read()
+            # display html file
+            components.html(html, height=500, width=1000, scrolling=True)
+        elif notebook == "Modele tuning":
+            # load html file
+            with open(os.path.join(data_path, "assets", "model.html"), "r", encoding='utf-8') as f:
+                html = f.read()
+            # display html file
+            components.html(html, height=500, width=1000, scrolling=True)
