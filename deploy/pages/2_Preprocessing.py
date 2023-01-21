@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from PIL import Image
 
-from fermat_helpers.utils import preprocess
+from fermat_helpers.utils import preprocess, show_sidebar_footer
 
 data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
 
@@ -20,6 +20,9 @@ def preprocessing_page():
     st.sidebar.markdown("## Preprocessing")
     st.sidebar.markdown("---")
     st.sidebar.markdown("""Dans cette section, vous pouvez voir les différentes étapes de preprocessing d'un texte""")
+
+    show_sidebar_footer()
+
     st.header("Preprocessing du texte")
     st.markdown("Le preprocessing est une etape importante dans le traitement des donnees textuelles. ")
 

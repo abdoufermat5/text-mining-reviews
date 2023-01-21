@@ -1,7 +1,9 @@
+import os
 import re
 import spacy
 
 import streamlit as st
+from PIL import Image
 
 
 def load_css(file_name):
@@ -15,6 +17,16 @@ def remote_css(url):
 
 def icon(icon_name):
     st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
+
+
+def show_sidebar_footer():
+    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
+
+    st.sidebar.markdown("<br/>"*6, unsafe_allow_html=True)
+    st.sidebar.markdown("""<i>Université Paris-Saclay - Master 2 Data Scale</i>""", unsafe_allow_html=True)
+    st.sidebar.markdown("""<b>Module :</b> Data Mining""", unsafe_allow_html=True)
+    paris_saclay = Image.open(os.path.join(data_path, "assets", "uvsq.png"))
+    st.sidebar.image(paris_saclay, use_column_width=True)
 
 
 stopwords = ['yourself', 'yourselves', 'herself', 'themselves',

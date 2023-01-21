@@ -7,8 +7,14 @@ from PIL import Image
 
 from fermat_helpers.descriptions import description_section
 from fermat_helpers.predict import predict_sentiment
+from fermat_helpers.utils import show_sidebar_footer
 
 SENTIMENT = {1: "très mauvais", 2: "mauvais", 3: "neutre", 4: "bon", 5: "très bon"}
+SENTIMENT_WITH_EMOJI = {1: "TRÈS NÉGATIVE" + " " + u"\U0001F62D",
+                        2: "NÉGATIVE" + " " + u"\U0001F622",
+                        3: "NEUTRE" + " " + u"\U0001F610",
+                        4: "POSITIVE" + " " + u"\U0001F60A",
+                        5: "TRÈS POSITIVE" + " " + u"\U0001F60D"}
 
 data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
 
@@ -26,6 +32,7 @@ def modeling_page():
     st.sidebar.markdown("""---""")
     st.sidebar.markdown("""Dans cette section, vous pouvez explorer les modeles de machine learning et faire des 
     predictions sur des commentaires/avis""")
+    show_sidebar_footer()
     st.session_state.more_stuff = False
     st.header("Modele de classification")
     # Get the model to use
@@ -45,8 +52,10 @@ def modeling_page():
         sbt1 = st.button("Prédire le sentiment", key="sbt1")
         if sbt1:
             sentiment = predict_sentiment(model1, vectorizer, text1)
-            # Show the sentiment
-            st.write('Le sentiment de la critique est **{}**.'.format(SENTIMENT[sentiment].upper()))
+            # Show the sentiment using emoji and color in a box and with big font
+            st.markdown(f"""<div style="background-color:#F5F5F5; padding: 10px; border-radius: 10px;
+                        font-size: 25px; color: #000000; font-weight: bold; text-align: center;">
+                        {SENTIMENT_WITH_EMOJI[sentiment]}</div>""", unsafe_allow_html=True)
     with t2:
         description_section("Modele", "Random Forest")
         model = joblib.load(os.path.join(data_path, 'models/nb_model75.sav'))
@@ -56,8 +65,10 @@ def modeling_page():
         sbt2 = st.button("Prédire le sentiment", key="sbt2")
         if sbt2:
             sentiment = predict_sentiment(model, vectorizer, text2)
-            # Show the sentiment
-            st.write('Le sentiment de la critique est **{}**.'.format(SENTIMENT[sentiment].upper()))
+            # Show the sentiment using emoji and color in a box and with big font
+            st.markdown(f"""<div style="background-color:#F5F5F5; padding: 10px; border-radius: 10px;
+            font-size: 25px; color: #000000; font-weight: bold; text-align: center;">
+            {SENTIMENT_WITH_EMOJI[sentiment]}</div>""", unsafe_allow_html=True)
 
 
 if __name__ == '__main__':

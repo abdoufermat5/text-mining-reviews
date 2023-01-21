@@ -26,7 +26,7 @@ def visualization_page():
     # get the path of the train_data.csv file in data folder which is two levels down from the current file using os
     file_path = os.path.join(data_path, "train_data.csv")
     data = pd.read_csv(file_path)
-    tab1, tab2, tab3 = st.tabs(["Histogramme", "Histogramme2", "Statistiques"])
+    tab1, tab3 = st.tabs(["Histogramme", "Distributions"])
     section = "Visualization"
     # Plot the distribution of the sentiment scores
     with tab1:
@@ -41,7 +41,6 @@ def visualization_page():
         ax.grid(True)
         st.pyplot(fig)
 
-    with tab2:
         st.subheader("Histogramme longueur critique")
         fig, ax = plt.subplots()
         bins = 50
@@ -52,6 +51,7 @@ def visualization_page():
         ax.set_xlim(0, 300)
         ax.grid(True)
         st.pyplot(fig)
+
     with tab3:
         st.subheader("Statistiques")
         st.write(data.describe())

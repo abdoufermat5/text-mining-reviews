@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from PIL import Image
 
-from fermat_helpers.utils import icon, remote_css
+from fermat_helpers.utils import icon, remote_css, show_sidebar_footer
 
 data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 
@@ -26,10 +26,7 @@ def home_page():
     icon("home")
     st.sidebar.markdown("## Page d'accueil ")
     st.sidebar.markdown("---")
-    st.sidebar.markdown("""<i>Université Paris-Saclay - Master 2 Data Scale</i>""", unsafe_allow_html=True)
-    st.sidebar.markdown("""<b>Module :</b> Data Mining""", unsafe_allow_html=True)
-    paris_saclay = Image.open(os.path.join(data_path, "assets", "uvsq.png"))
-    st.sidebar.image(paris_saclay, use_column_width=True)
+    show_sidebar_footer()
     st.image(image, use_column_width=True)
     st.markdown("## DATA MINING PROJECT")
     st.markdown("### Analyse de sentiments sur les critiques de produits")
