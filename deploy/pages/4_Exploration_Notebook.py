@@ -46,25 +46,18 @@ def explore_notebooks():
     ]
 
     # button for other features visualization notebook
-    if st.button("Visualisation des autres features", type="primary"):
+    with st.expander("Notebook de visualisation des autres features"):
         # Afficher le fichier html
         html(open(notebooks[0], "rb").read(), height=1000, scrolling=True)
-    else:
-        st.write("")
 
     # centered button for preprocessing notebook
-    if st.button("Notebook de preprocessing", type="primary"):
+    with st.expander("Notebook de preprocessing"):
         # Afficher le fichier html
         html(open(notebooks[1], "rb").read(), height=1000, scrolling=True)
-    else:
-        st.write("")
 
-    # button for model notebook
-    if st.button("Notebook des modèles", type="primary"):
+    with st.expander("Notebook de modélisation"):
         # Afficher le fichier html
         html(open(notebooks[2], "rb").read(), height=1000, scrolling=True)
-    else:
-        st.write("")
 
 
 if __name__ == '__main__':
