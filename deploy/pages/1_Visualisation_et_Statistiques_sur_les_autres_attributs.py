@@ -7,8 +7,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from PIL import Image
 import plotly.express as px
+from fermat_helpers.dbConnector import DBConnector
 
 data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
+
+
+@st.cache
+def get_data():
+    db = DBConnector()
+    return db.get_base_data()
 
 
 def visualization_page():
@@ -26,9 +33,11 @@ def visualization_page():
     les données""")
     st.header("Visualisation et Statistiques sur les autres attributs")
     # Load the data
-    # get the path of the train_data.csv file in data folder which is two levels down from the current file using os
-    file_path = os.path.join(data_path, "Amazon_Unlocked_Mobile.csv")
-    data = pd.read_csv(file_path)
+
+    # display loader while loading the data
+    with st.spinner("Chargement des données..."):
+        data = get_data()
+
     reviews = data['Reviews']
     brandName = data['Brand Name'].str.upper()
     brandList = list(set(brandName))
@@ -101,16 +110,19 @@ def visualization_page():
         # display two diagrams in the same row
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des marques</h3>""", unsafe_allow_html=True)
+            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des marques</h3>""",
+                        unsafe_allow_html=True)
             st.markdown("---")
             st.bar_chart(brandName.value_counts())
         with col2:
-            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des produits</h3>""", unsafe_allow_html=True)
+            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des produits</h3>""",
+                        unsafe_allow_html=True)
             st.markdown("---")
             st.bar_chart(data['Product Name'].value_counts())
         with col3:
             # h3 title in light blue
-            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des Rating</h3>""", unsafe_allow_html=True)
+            st.markdown("""<h3 align="center" style="background-color:#00b4d8">Distribution des Rating</h3>""",
+                        unsafe_allow_html=True)
             st.markdown("---")
             # pie chart avec matplotlib
             fig, ax = plt.subplots()
@@ -243,7 +255,10 @@ def visualization_page():
             # 10 produits les plus chères
             # aggregate the data by product name and count the number of ratings
             with col1:
-                st.markdown(f"""<h3 style="text-align: center;background-color:#00b4d8">Les 10 produits les plus chères</h3>""", unsafe_allow_html=True)
+                st.markdown(
+                    f"""<h3 style="text-align: center;background-color:#00b4d8">Produit très bien évalués et à prix 
+                    très abordable</h3>""",
+                    unsafe_allow_html=True)
                 low_price_df = (data[(data['Rating'] >= 3) & (data['Price'] < 300) & (data['Price'] > 50)].set_index(
                     'Product Name').groupby(level=0)['Price'].agg(
                     ['count'])).sort_values(['count'], ascending=False)[:10]

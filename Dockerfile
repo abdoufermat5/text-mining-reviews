@@ -23,6 +23,7 @@ COPY . /usr/src/app
 # install requirements
 RUN pip install -r requirements.txt
 RUN python -m spacy download en_core_web_sm
+RUN python -m pip install pymongo[srv]
 
 # disables lag in stdout/stderr output
 ENV PYTHONUNBUFFERED 1
