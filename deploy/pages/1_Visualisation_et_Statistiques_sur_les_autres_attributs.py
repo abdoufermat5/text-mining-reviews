@@ -7,15 +7,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from PIL import Image
 import plotly.express as px
-from fermat_helpers.dbConnector import DBConnector
+from fermat_helpers.utils import get_data
 
 data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
-
-
-@st.cache
-def get_data():
-    db = DBConnector()
-    return db.get_base_data()
 
 
 def visualization_page():
@@ -40,7 +34,7 @@ def visualization_page():
 
     reviews = data['Reviews']
     brandName = data['Brand Name'].str.upper()
-    brandList = list(set(brandName))
+    brandList = data["Brand Name"].unique().tolist()
     # unique products names
     uniqueProducts = data['Product Name'].value_counts().index.tolist()
     # total number of products

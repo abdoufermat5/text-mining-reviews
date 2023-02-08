@@ -1,0 +1,11 @@
+setup.py
+fermat_helpers/__init__.py
+fermat_helpers/dbConnector.py
+fermat_helpers/descriptions.py
+fermat_helpers/predict.py
+fermat_helpers/utils.py
+fermat_helpers.egg-info/PKG-INFO
+fermat_helpers.egg-info/SOURCES.txt
+fermat_helpers.egg-info/dependency_links.txt
+fermat_helpers.egg-info/not-zip-safe
+fermat_helpers.egg-info/top_level.txt

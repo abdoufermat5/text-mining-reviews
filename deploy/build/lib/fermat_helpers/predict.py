@@ -12,17 +12,3 @@ def predict_sentiment(classifier, vectorizer, text):
     result = classifier.predict(vectorized_text)
     # return the predicted sentiment
     return result[0]
-
-
-def remove_special_characters(text):
-    """
-    Remove special characters from a text includes dots, commas, exclamation marks, etc.
-    """
-    # remove special characters
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
-    # remove multiple spaces
-    text = re.sub(r"\s+", " ", text)
-    # remove leading and trailing spaces
-    text = text.strip()
-    # return the text
-    return text
