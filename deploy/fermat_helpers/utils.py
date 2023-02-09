@@ -1,12 +1,14 @@
 import os
+import pickle
 import re
 from time import sleep
 
 import spacy
-
+import contractions
 import streamlit as st
 from PIL import Image
 from fermat_helpers.dbConnector import DBConnector
+import emoji
 
 
 def remove_special_characters_from_brand_name(text):
@@ -107,13 +109,49 @@ stopwords = ['yourself', 'yourselves', 'herself', 'themselves',
              'which', 'there', 'our', 'this', 'hers', 'being', 'did', 'those', 'i', 'does', 'will',
              'shall', 's', 't', 'n', 'd', 'e', 'u', 'x', 'am', 'get', 've']
 
-# Load the English model
-nlp = spacy.load("en_core_web_sm")
+
+def convert_emojis_and_emoticons_to_word(text):
+    # current directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # file path in current directory
+    file_path = os.path.join(current_dir, 'Emoticon_Dict.p')
+    with open(file_path, 'rb') as fp:
+        Emoticon_Dict = pickle.load(fp)
+    # remove emoticons
+    emoticon_pattern = re.compile(u'(' + u'|'.join(k for k in Emoticon_Dict) + u')')
+    text = emoticon_pattern.sub(r'', text)
+    # replace emoji
+    text = emoji.demojize(text).replace(",", "").replace(":", "").strip()
+    return " ".join(text.split())
+
+
+def tokenize(text):
+    """
+    Tokenize the text using regular expressions.
+    """
+    # tokenize the text using regular expressions
+    tokens = re.findall(r"[a-zA-Z0-9]+", text)
+    # return the tokens
+    return tokens
 
 
 def preprocess(text):
+    with st.spinner('Expansion des contractions'):
+        sleep(1)
+        text = contractions.fix(text)
+        st.markdown("""#### Enlever les contractions """)
+        st.markdown("""
+        Code:
+        ```python
+        text = contractions.fix(text)
+        ```""")
+        st.markdown("> Sortie:")
+        st.write(text)
+
+    st.markdown("---")
     # streamlit spinner
     with st.spinner('Conversion en minuscule...'):
+        sleep(1)
         # Convert to lowercase
         text = text.lower()
 
@@ -123,30 +161,41 @@ def preprocess(text):
         ```python
         text = text.lower()
         ```""")
-        st.write("Sortie: {}".format(text))
+        st.markdown("> Sortie: ")
+        st.write(text)
 
     st.markdown("---")
 
-    with st.spinner('Suppression des caractères spéciaux...'):
+    with st.spinner('Conversion des emojis en texte...'):
         sleep(1)
+        # Remove emojis
+        text = convert_emojis_and_emoticons_to_word(text)
         # Remove punctuation
-        text = re.sub(r'[^\w\s]', '', text)
 
-        st.write("#### Suppression des caractères spéciaux")
+        st.write("#### Conversion des emojis en texte")
         st.markdown("""
         Code:
         ```python
-        text = re.sub(r'[^\w\s]', '', text)
+        def convert_emojis_and_emoticons_to_word(text):
+            with open('./Emoticon_Dict.p', 'rb') as fp:
+                Emoticon_Dict = pickle.load(fp)
+            # remove emoticons
+            emoticon_pattern = re.compile(u'(' + u'|'.join(k for k in Emoticon_Dict) + u')')
+            text = emoticon_pattern.sub(r'', text)
+            # replace emoji
+            text = emoji.demojize(text).replace(",", "").replace(":", "").strip()
+            return " ".join(text.split())
         ```""")
 
-        st.write("Sortie: {}".format(text))
+        st.markdown(f"""> Sortie:""")
+        st.write(text)
 
     st.markdown("---")
 
     with st.spinner("Tokenisation du texte..."):
         sleep(1)
         # Tokenize the text
-        doc = nlp(text)
+        tokens = tokenize(text)
 
         st.markdown("#### Tokenization")
 
@@ -163,12 +212,16 @@ def preprocess(text):
             return text.lower()
         ```""")
 
-        st.write([token.text for token in doc])
+        st.markdown(f"""> Sortie: """)
+        st.write(tokens)
 
     st.markdown("---")
 
     with st.spinner("Suppression des stopwords et lemmatisation..."):
         sleep(1)
+        # Load the spacy model
+        nlp = spacy.load("en_core_web_sm")
+        doc = nlp(" ".join(tokens))
         # Remove stopwords and lemmatize
         tokens = [token.lemma_ for token in doc if token.text not in stopwords]
 
@@ -202,6 +255,7 @@ def preprocess(text):
             return lemmatized_text
         ```""")
 
+        st.markdown(f"""> Sortie:""")
         st.write(tokens)
 
     return f"tokens:  {tokens}"

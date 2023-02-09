@@ -78,6 +78,9 @@ def rf_description():
         en particulier sur de grands ensembles de données.""",
         unsafe_allow_html=True
     )
+    st.markdown("---")
+    st.markdown("### Entrainement et résultats obtenus")
+    st.markdown("---")
 
 
 def description_section(section, chosen_model=None):
