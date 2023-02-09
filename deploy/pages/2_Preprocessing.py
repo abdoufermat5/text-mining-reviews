@@ -27,16 +27,17 @@ def preprocessing_page():
     st.markdown("Le preprocessing est une etape importante dans le traitement des donnees textuelles. ")
 
     # load image
-    image = Image.open(os.path.join(data_path, "assets", "Natural_language_processing_pipeline_e3608ff95c.webp"))
+    image = Image.open(os.path.join(data_path, "assets", "preprocessing_flow.png"))
     st.image(image, caption="Natural language processing pipeline", use_column_width=True)
 
     # Get the text to preprocess
-    text = st.text_area("Saissisez votre texte", "Saisissez votre texte ici")
+    text = st.text_area("Saissisez votre texte", placeholder="Saisissez votre texte ici puis cliquez sur entrer")
     # Tokenize and lemmatize the text
-    if st.button("Preprocess"):
-        preprocess(text)
-        # add heart emoji
-        st.success("PREPROCESSING DONE!" + " " + u"\U0001F499")
+    if len(text) > 20:
+        if st.button("Preprocess"):
+            preprocess(text)
+            # add heart emoji
+            st.success("PREPROCESSING DONE!" + " " + u"\U0001F499")
 
 
 if __name__ == '__main__':
