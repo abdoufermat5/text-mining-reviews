@@ -8,7 +8,7 @@
 If you have docker and docker compose installed, 
 you can run the app with the following command:
 
-```docker compose up --build -up```
+```docker compose up --build -d```
 
 Then go to [http://localhost:8501](http://localhost:8501)
 
