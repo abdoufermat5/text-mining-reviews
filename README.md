@@ -4,11 +4,23 @@
 
 ```bash git clone url ```
 
+## Simple way to run the app
+If you have docker and docker compose installed, 
+you can run the app with the following command:
+
+```bash docker compose up --build -up```
+
+Then go to [http://localhost:8501](http://localhost:8501)
+
+If you don't have docker, you can run the app with the following steps:
+
 ## install dependencies
 
 ```bash pip install -r requirements.txt ```
 
 ## download the dataset from kaggle
+
+PS: You don't really need to do this step, because the dataset is already stored in a mongoDB cluster
 
 > [https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones](https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones)
 
@@ -31,7 +43,7 @@ We've built a streamlit app to make it easier to understand the data and the mod
 
 ![streamlit app](./data/assets/home-page.png)
 
-To run the app
+To run the streamlit app
 
 > go to the deploy folder
 > ```bash cd deploy ```

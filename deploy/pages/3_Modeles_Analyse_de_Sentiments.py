@@ -48,6 +48,7 @@ def modeling_page():
     with t1:
         model1 = joblib.load(os.path.join(data_path, 'models/nb_model75.sav'))
         description_section("Modele", "Naive Bayes")
+        st.markdown("""### Demonstration""")
         text1 = st.text_area("Saissisez le texte a classer", key="text1")
         sbt1 = st.button("Prédire le sentiment", key="sbt1")
         if sbt1:
@@ -59,7 +60,7 @@ def modeling_page():
     with t2:
         description_section("Modele", "Random Forest")
         model = joblib.load(os.path.join(data_path, 'models/nb_model75.sav'))
-
+        st.markdown("""### Demonstration""")
         text2 = st.text_input("Saissisez le texte a classer", key="text2")
         # Predict the sentiment
         sbt2 = st.button("Prédire le sentiment", key="sbt2")
@@ -69,6 +70,18 @@ def modeling_page():
             st.markdown(f"""<div style="background-color:#F5F5F5; padding: 10px; border-radius: 10px;
             font-size: 25px; color: #000000; font-weight: bold; text-align: center;">
             {SENTIMENT_WITH_EMOJI[sentiment]}</div>""", unsafe_allow_html=True)
+
+    st.markdown("""---""")
+    st.markdown("""## Conclusion""")
+    st.markdown("""Les deux modeles ont donné des resultats satisfaisants. Le modele Naive Bayes a donné un score de 77% dans un premier temps,
+    et le modele Random Forest a donné un score de 84%.
+    Puis lorsque nous avons reduit la longueur des critiques et entrainé avec un vectoriseur de bi-grammes, le modele Naive Bayes a donné un score de 80%,
+    qui est un peu meilleur que le premier modele. Le modele Random Forest a donné un score de 83% un peu moins que le premier modele.
+    """)
+    st.markdown("""---""")
+    # load image
+    accuracy_scores = Image.open(os.path.join(data_path, "assets", "Modeles_Accuracy.png"))
+    st.image(accuracy_scores, caption='Modeles Accuracy', use_column_width=True)
 
 
 if __name__ == '__main__':

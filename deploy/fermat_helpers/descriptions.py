@@ -44,6 +44,27 @@ def naive_bayes_description():
             hypothèse ne se vérifie pas dans les données réelles.
         """
     )
+    st.markdown("---")
+    st.markdown("### Entrainement et résultats obtenus")
+    st.markdown("""
+    Nous avons entrainé le modèle de classification Naive Bayes sur les données d'entraînement et nous avons obtenu les résultats suivants :
+    """)
+    st.markdown("""
+    ```python
+    # definition du modele
+    model_nb_75 = MultinomialNB()
+    y_pred_nb, clf_score_nb, conf_mat_nb = train_classifier(classifier=model_nb_75, 
+                                                            train_X=train_vectors_X75, 
+                                                            train_y=train_75.Rating, 
+                                                            test_X=test_vectors_X75, 
+                                                            test_y=test_75.Rating)
+    ```
+    """, unsafe_allow_html=True)
+    st.markdown("#### Matrice de confusion")
+    st.markdown("---")
+    # load image
+    conf_mat_nb_image = Image.open(os.path.join(data_path, "assets", 'naives_bayes_matrice_cl1.png'))
+    st.image(conf_mat_nb_image, caption='Matrice de confusion', use_column_width=True)
 
 
 def rf_description():
@@ -81,6 +102,60 @@ def rf_description():
     st.markdown("---")
     st.markdown("### Entrainement et résultats obtenus")
     st.markdown("---")
+
+    st.markdown(
+        """<div style='background-color: black;color:white;padding:1em;'>
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Le modèle RF a été entrainé dans un premier temps avec un vecteurs d'unigrammes sur des critiques de 
+    longueur maximale 75 caractères (c'est ce qu'on pouvait faire de mieux avec les ressources disponibles,
+     à la base ca devait être 250 caractères mais on a pas pu entrainer le modèle)
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
+    st.markdown("""
+     
+    ```python
+    n_estimators = 10
+    model_rf_75 = RandomForestClassifier(n_estimators =n_estimators,criterion="entropy",random_state =0)
+    y_pred_rf, clf_score_rf, conf_mat_rf = train_classifier(classifier=model_rf_75,
+                                                            train_X=train_vectors_X75, 
+                                                            train_y=train_75.Rating, 
+                                                            test_X=test_vectors_X75, 
+                                                            test_y=test_75.Rating)
+    ```
+    """)
+    st.markdown("---")
+    st.markdown("#### Rapport de classification")
+    # a table of the classification report for a 5 class classification
+    st.markdown(
+        """
+        |               | precision | recall | f1-score | support |
+        |---------------|-----------|--------|----------|---------|
+        | 1             | 0.78      | 0.88   | 0.83     | 8034     |
+        | 2             | 0.83      | 0.51   | 0.63     | 2248     |
+        | 3             | 0.82      | 0.52   | 0.63     | 3408     |
+        | 4             | 0.79      | 0.39   | 0.53     | 8311     |
+        | 5             | 0.87      | 0.97   | 0.92     | 42222     |
+        | accuracy      |           |        | 0.85     | 64223     |
+        | macro avg     | 0.82      | 0.65   | 0.71     | 64223     |
+        | weighted avg  | 0.84      | 0.85   | 0.83     | 64223     |
+        
+        
+        -----
+        > CPU times: total: 3min 2s
+        > Wall time: 8min 13s
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
+    st.markdown("#### Matrice de confusion")
+    # load image
+    rf_cm = Image.open(os.path.join(data_path, "assets", 'random_forest_matrice_cl1.png'))
+    st.image(rf_cm, caption='Matrice de confusion', use_column_width=True)
+
+
 
 
 def description_section(section, chosen_model=None):
