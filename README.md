@@ -2,7 +2,7 @@
 
 ## clone this repo
 
-```git clone url ```
+```git clone https://github.com/abdoufermat5/text-mining-reviews ```
 
 ## Simple way to run the app
 If you have docker and docker compose installed, 
