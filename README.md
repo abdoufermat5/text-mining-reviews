@@ -2,15 +2,17 @@
 
 ## clone this repo
 
-```bash git clone url ```
+```git clone url ```
 
 ## Simple way to run the app
 If you have docker and docker compose installed, 
 you can run the app with the following command:
 
-```bash docker compose up --build -up```
+```docker compose up --build -up```
 
 Then go to [http://localhost:8501](http://localhost:8501)
+
+#### if not started rerun the command again
 
 If you don't have docker, you can run the app with the following steps:
 
@@ -46,10 +48,10 @@ We've built a streamlit app to make it easier to understand the data and the mod
 To run the streamlit app
 
 > go to the deploy folder
-> ```bash cd deploy ```
+> ```cd deploy ```
 > 
 > install local package fermat-helpers
-> ```bash pip install . ```
+> ```pip install . ```
 > 
 > run the app
 > ```bash streamlit run Accueil.py ```
